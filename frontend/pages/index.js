@@ -8,8 +8,8 @@ import { Container } from "postcss";
 export default function Home() {
   const socket = io("ws://localhost:4242");
   const [messages, setMessages] = useState([]);
-  //socket.emit("room::join", { room: "default" });
-  //socket.emit("room::message::send", { room: "default", message: "Hello" });
+  socket.emit("room::join", { room: "default" });
+  
   
 
   socket.on("room::message::send", ({ room, message }) => {

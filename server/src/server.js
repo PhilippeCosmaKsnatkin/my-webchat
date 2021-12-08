@@ -15,7 +15,8 @@ export function launch(port) {
     });
 
     socket.on("room::message::send", ({ room, message }) => {
-      server.to(room).emit("room::message::send", { room, message });
+      server.in(room).emit("room::message::send", { room, message });
+    
     });
   })
 
