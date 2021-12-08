@@ -3,7 +3,7 @@ import { useState } from 'react';
 export default function ChatInput(props){
     const [message, setMessage] = useState("");
     function send(){
-        props.socket.emit("room::message::send", { room: "default", message: message });
+        props.socket.emit("room::message::send", { room: props.room, message: message });
 
     }
     function handleChange(e){
