@@ -20,6 +20,8 @@ nav ul { list-style-type: none; }
     background-color: gray;
     width: 50px;
     color:black;
+    bottom: 0;
+    position: absolute;
 }
 .sidebar{
     display: flex;

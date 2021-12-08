@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-export default function ChatInput(){
+export default function ChatInput(props){
     const [message, setMessage] = useState("");
     function send(){
-        console.log(message)
+        props.socket.emit("room::message::send", { room: "default", message: message });
+
     }
     function handleChange(e){
         setMessage(e.target.value)
