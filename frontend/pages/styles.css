@@ -1,0 +1,44 @@
+nav ul { list-style-type: none; }
+
+.root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.my-container{
+    background-color: aquamarine;
+    width: 100%;
+    height: 100%;
+}
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 40px;
+}
+.send {
+    background-color: gray;
+    width: 50px;
+    color:black;
+}
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(31, 41, 55, 1);
+    color: white;
+    width: 15%;
+    height: 100%;
+}
+
+.sidebar-item {
+    font-weight: 700;
+	font-size: 1.125rem;
+    line-height: 1.75rem;
+    margin-top: calc(0.5rem * calc(1 - 0));
+    margin-bottom: calc(0.5rem * 0);
+}
+
+.textBar{
+    align-items: center;
+}
