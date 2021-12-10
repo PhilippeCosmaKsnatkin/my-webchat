@@ -4,31 +4,38 @@ import { useState } from "react";
 import Sidebar from "../../components/Sidebar.js"
 import ChatInput from "../../components/ChatInput" ;
 import Message from "../../components/message";
-import { Container } from "postcss";
-const Post = () => {
-  const router = useRouter()
-  const { roomName } = router.query
-    console.log(roomName);
+import { useEffect } from 'react';
 
-    
+const Post = () => {
   const socket = io("ws://localhost:4242");
   const [messages, setMessages] = useState([]);
-  socket.emit("room::join", { room: roomName });
-  
-  
+  const router = useRouter();
+  const { roomName } = router.query;
+  const [roomList, setRoomList] = useState([]);
+
+  useEffect(()=>{
+    
+    socket.emit("room::join", { room: roomName });
+    socket.emit("getListRoom");
+    socket.on("listRoom::", (data) => {
+      setRoomList(data);
+    });
+    
+    
+  },[]);
 
   socket.on("room::message::send", ({ room, message }) => {
     console.log("Message received:", room, message);
-    setMessages([...messages, message]);
+    setMessages(messages =>[...messages, message]);
   });
-  
+
   const listMessage = messages.map((message) =>
     <Message message={message}/>
   );
 
   return (
     <div className="root ">
-      <Sidebar items={["room1","room2","room3"]}/>
+      <Sidebar items={roomList}/>
 
       <div className="my-container">
         {listMessage}

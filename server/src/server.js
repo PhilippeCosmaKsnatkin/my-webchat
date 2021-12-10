@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+const roomlist=[];
 
 export function launch(port) {
   const server = new Server({
@@ -12,6 +13,18 @@ export function launch(port) {
 
     socket.on("room::join", ({ room }) => {
       socket.join(room);
+      if (roomlist.indexOf(room) === -1) {
+        roomlist.push(room);
+        socket.emit("listRoom::", roomlist);
+      }
+    });
+
+    
+
+    socket.on("getListRoom", () => {
+      socket.emit("listRoom::", roomlist);
+      console.log(roomlist);
+    
     });
 
     socket.on("room::message::send", ({ room, message }) => {

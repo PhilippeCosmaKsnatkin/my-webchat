@@ -1,34 +1,48 @@
 import { io } from "socket.io-client";
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
-import ChatInput from "../components/ChatInput" ;
-import Message from "../components/message";
-import { Container } from "postcss";
-
+import { useEffect } from "react";
+import { useRouter } from 'next/router'
 export default function Home() {
-  const socket = io("ws://localhost:4242");
-  const [messages, setMessages] = useState([]);
-  socket.emit("room::join", { room: "default" });
+  const router = useRouter();
+  const [roomId, setRoomID] = useState("");
+  const [roomList, setRoomList] = useState([]);
+  function submit() {
+    
+    router.push(`/room/${roomId}`);
+  }
+  function handleChange(e) {
+    setRoomID(e.target.value);
+  }
   
   
+  
+  useEffect(() => {
+    const socket = io("ws://localhost:4242");
+    socket.emit("getListRoom");
+    socket.on("listRoom::", (data) => {
+      setRoomList(data);
+      console.log(data);
+    });
+    
+  }, []);
 
-  socket.on("room::message::send", ({ room, message }) => {
-    console.log("Message received:", room, message);
-    setMessages([...messages, message]);
-  });
   
-  const listMessage = messages.map((message) =>
-    <Message message={message}/>
-  );
+  
+  
+  
 
   return (
     <div className="root ">
-      <Sidebar items={["room1","room2","room3"]}/>
-
-      <div className="my-container">
-        {listMessage}
-        <ChatInput socket={socket}/>
-      </div>
+      <Sidebar items={roomList}/>
+      <form onSubmit={e=>{e.preventDefault();
+        submit()}}>
+      
+        <input type="text" placeholder="Room Name" value={roomId} onChange={handleChange}/>
+      
+      </form>
+      
+      
     </div>
   )
 }
